@@ -1,0 +1,40 @@
+<?php
+
+$title = $this->translate('Latest Quizzes');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Quiz, Latest Quizzes');
+$this->headMeta()->appendName('description', 'Best quizzes on the web');
+
+?>
+
+<div class="container">
+    <h2><?= $this->escapeHtml($title) ?></h2>
+
+    <?php if (count($this->quizzes) > 0): ?>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Category</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->quizzes as $quiz): ?>
+                <tr>
+                    <th scope="row"><?= $quiz->getId() ?></th>
+                    <td>
+                        <a href="<?= $this->url('quiz', ['action' => 'answer', 'id' => $quiz->getId()]) ?>">
+                            <?= $quiz->gettitle() ?>
+                        </a>
+                    </td>
+                    <td><?= $quiz->getStatus() ?></td>
+                    <td><?= $quiz->getCategory() ?></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+</div>

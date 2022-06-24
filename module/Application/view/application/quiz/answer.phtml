@@ -1,0 +1,71 @@
+<?php
+
+$title = $this->translate('Answer');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Answer');
+$this->headMeta()->appendName('description', 'Select your answer');
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('quiz', ['action' => 'answer', 'id' => $this->quiz->getId()]));
+$form->prepare();
+
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <h2><?= 'Quiz#'. $this->quiz->getId() .' - '. $this->quiz->getTitle() ?></h2>
+
+            <?= $this->form()->openTag($form) ?>
+
+            <p class="text-muted form-text mb-3">
+                <?= $this->escapeHtml($this->quiz->getQuestion()) ?>
+            </p>
+
+            <div class="my-3 d-block">
+                <?php
+                    $answers = $this->insight->fetchAnswersById($this->quiz->getId());
+                    foreach ($answers as $answer):
+                ?>
+                    <div class="form-check custom-radio">
+                        <?= $this->formRow($form->get('id')->setValueOptions([$answer->getId() => $answer->getAnswer()])) ?>
+                    </div>
+                <?php
+                    endforeach;
+                ?>
+            </div>
+
+            <?php if ($this->identity()): ?>
+                <?php if ($this->record->hasAnswered((int) $this->quiz->getId(), (int) $this->authHelper()->getId())): ?>
+                    <p class="form-text text-info mb-3">
+                        <?= $this->translate('You have already answered this quiz.') ?>
+                    </p>
+                <?php else: ?>
+                    <div class="mb-3">
+                        <?= $this->formHidden($form->get('user_id')->setValue($this->authHelper()->getId())) ?>
+                        <?= $this->formHidden($form->get('csrf')) ?>
+                        <div class="text-danger">
+                            <?= $this->formElementErrors($form->get('csrf')) ?>
+                        </div>
+                        <?= $this->formSubmit($form->get('select_answer')) ?>
+                    </div>
+                <?php endif; ?>
+            <?php else: ?>
+                <p class="form-text text-secondary mb-3">
+                    <?= sprintf($this->translate('You must be %slogged in%s to answer this quiz '), '<a href="'. $this->url('login', ['action' => 'index']) .'">', '</a>') ?>
+                </p>
+            <?php endif; ?>
+
+            <p class="form-text mb-3">
+                <a href="<?= $this->url('quiz', ['action' => 'view', 'id' => $this->quiz->getId()]) ?>">
+                    <?= $this->translate('View Results') ?>
+                </a>
+            </p>
+
+            <?= $this->form()->closeTag() ?>
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+</div>

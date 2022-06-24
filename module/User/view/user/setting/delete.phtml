@@ -1,0 +1,39 @@
+<?php
+
+$title = $this->translate('Delete Account');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Delete, Suspend, Deactivate');
+$this->headMeta()->appendName('description', 'Delete user account');
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('settings', ['action' => 'delete']));
+$form->prepare();
+
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <a href="<?= $this->url('settings', ['action' => 'index']) ?>">Settings</a> / <?= $this->escapeHtml($title) ?>
+
+            <h2><?= $this->escapeHtml($title) ?></h2>
+
+            <?= $this->form()->openTag($form) ?>
+            <?= $this->formHidden($form->get('id')->setValue($this->authHelper()->getId())) ?>
+
+            <span class="form-text text-muted pb-2">
+                <?= $this->translate('Are you sure you want to delete your account?') ?>
+            </span>
+
+            <div class="mb-3">
+                <?= $this->formSubmit($form->get('delete_account')->setValue('Yes')) ?>
+                <?= $this->formSubmit($form->get('delete_account')->setValue('No')) ?>
+            </div>
+
+            <?= $this->form()->closeTag() ?>
+            
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+</div>

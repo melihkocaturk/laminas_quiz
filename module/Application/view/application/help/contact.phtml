@@ -1,0 +1,84 @@
+<?php
+
+$title = $this->translate('Contact Us');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Contact, Ask');
+$this->headMeta()->appendName('description', 'Get in touch with us');
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('help', ['action' => 'contact']));
+$form->prepare();
+
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2><?= $this->escapeHtml($title) ?></h2>
+
+            <?= $this->form()->openTag($form) ?>
+
+            <span class="form-text text-muted pb-2">
+                <?= $this->translate('Get in touch with us.') ?>
+            </span>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('name')) ?>
+                <div class="form-group">
+                    <?= $this->formText($form->get('name')) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('name')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('email')) ?>
+                <div class="form-group">
+                    <?= $this->formEmail($form->get('email')) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('email')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('message')) ?>
+                <div class="form-group">
+                    <?= $this->formTextArea($form->get('message')) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('message')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('captcha')) ?>
+                <div class="form-group">
+                    <?= $this->formCaptcha($form->get('captcha')) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('captcha')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formHidden($form->get('csrf')) ?>
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('csrf')) ?>
+                </div>
+
+                <?= $this->formSubmit($form->get('contact_us')) ?>
+            </div>
+
+            <?= $this->form()->closeTag() ?>
+            
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+</div>

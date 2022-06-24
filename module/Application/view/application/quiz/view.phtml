@@ -1,0 +1,67 @@
+<?php
+
+use Laminas\Db\Sql\Ddl\Column\Datetime;
+
+$title = $this->translate('View Results');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Quiz, Results');
+$this->headMeta()->appendName('description', 'View quiz results');
+
+?>
+
+<div class="container">
+    <h2><?= 'Quiz#'. $this->quiz->getId() .' - '. $this->quiz->getTitle() ?></h2>
+
+    <p class="text-muted form-text mb-3">
+        <?= $this->escapeHtml($this->quiz->getQuestion()) ?>
+    </p>
+
+    <?php
+        $answers = $this->answersTable->fetchAnswersById($this->quiz->getId());
+
+        foreach ($answers as $index => $answer):
+            $percent = $this->quiz->getTotal() != 0 ? 
+            sprintf("%.2f", 100.0 * $answer->getTally() / $this->quiz->getTotal()) : 0;
+    ?>
+        <small class="text-muted">
+            <?= $this->escapeHtml($answer->getAnswer()) .'('. $percent .'%) - '. 
+            $answer->getTally() .' of '. $this->quiz->getTotal() .' answers'; ?>
+        </small>
+
+        <div class="progress mb-2" style="height: 25px;">
+            <div class="progress-bar bar-chart-<?= (($index % 5) + 1); ?>" role="progressbar" title="<?= $percent ?>" 
+            style="width: <?= $percent == 0 ? ++$percent : $percent ; ?>%;" aria-valuenow="<?= $percent ?>" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    <?php
+        endforeach;
+    ?>
+
+    <div class="mb-3">
+        <ul class="list-inline">
+            <li class="list-inline-item text-muted">
+                <?= $this->translate('Posted by ') ?>
+                <a href="<?= $this->url('profile', ['id' => $this->quiz->getUserId(), 'username' => $this->quiz->getUsername()]) ?>">
+                    <?= $this->quiz->getUsername() ?>
+                </a>
+            </li>&diam;
+            <li class="list-inline-item">
+                <time class="timeago" datetime="<?= $this->quiz->getCreated() ?>" title="<?= $this->quiz->getCreated() ?>">
+                    <?= $this->dateFormat(
+                        new DateTime($this->quiz->getCreated()),
+                        IntlDateFormatter::LONG, // Date
+                        IntlDateFormatter::MEDIUM, // Time
+                        "en-us"
+                    ); ?>
+                </time>
+            </li>&diam;
+            <li class="list-inline-item">
+                <?= $this->translate('Status: '. $this->quiz->getStatus()) ?>
+            </li>&diam;
+            <li class="list-inline-item">
+                <?= $this->translate('Views: '. $this->quiz->getViews()) ?>
+            </li>
+        </ul>
+    </div>
+
+</div>

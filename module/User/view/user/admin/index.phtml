@@ -1,0 +1,36 @@
+<h2>User Accounts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Username</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Role</th>
+            <th scope="col">Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($this->accounts as $account): ?>
+        <tr>
+            <th scope="row"><?= $account->getId() ?></th>
+            <td>
+                <a href="<?= $this->url('profile', ['id' => $account->getId(), 'username' => $account->getUsername()]) ?>">
+                    <?= $account->getUsername() ?>
+                </a>
+            </td>
+            <td><?= $account->getEmail() ?></td>
+            <td><?= $account->getGender() ?></td>
+            <td><?= $account->getRole() ?></td>
+            <td>
+                <a href="#">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        <?php endforeach ?>
+    </tbody>
+</table>
+
+<?= $this->paginationControl($this->accounts, 'Sliding', 'partial/paginator', ['route' => 'admin_user']) ?>

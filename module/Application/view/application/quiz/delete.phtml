@@ -1,0 +1,40 @@
+<?php
+
+$title = $this->translate('Delete Quiz');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Delete, Remove, Quiz');
+$this->headMeta()->appendName('description', 'Delete quiz');
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('quiz', ['action' => 'delete', 'id' => $this->quiz->getId()]));
+$form->prepare();
+
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <a href="<?= $this->url('quiz', ['action' => 'index']) ?>">Quizzes</a> / <?= $this->escapeHtml($title) ?>
+
+            <h2><?= $this->escapeHtml($title) ?></h2>
+
+            <?= $this->form()->openTag($form) ?>
+            <?= $this->formHidden($form->get('id')->setValue($this->quiz->getId())) ?>
+            <?= $this->formHidden($form->get('user_id')->setValue($this->authHelper()->getId())) ?>
+
+            <span class="form-text text-muted pb-2">
+                <?= $this->translate('Are you sure you want to delete this quiz?') ?>
+            </span>
+
+            <div class="mb-3">
+                <?= $this->formSubmit($form->get('delete_quiz')->setValue('Yes')) ?>
+                <?= $this->formSubmit($form->get('delete_quiz')->setValue('No')) ?>
+            </div>
+
+            <?= $this->form()->closeTag() ?>
+            
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+</div>

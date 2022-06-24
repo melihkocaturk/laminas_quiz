@@ -1,0 +1,60 @@
+<?php
+
+$title = $this->translate('Change Username');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Settings, Edit, Username');
+$this->headMeta()->appendName('description', 'Update your username');
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('settings', ['action' => 'username']));
+$form->prepare();
+
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <a href="<?= $this->url('settings', ['action' => 'index']) ?>">Settings</a> / <?= $this->escapeHtml($title) ?>
+
+            <h2><?= $this->escapeHtml($title) ?></h2>
+
+            <?= $this->form()->openTag($form) ?>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('current_username')) ?>
+                <div class="form-group">
+                    <?= $this->formText($form->get('current_username')->setValue($this->authHelper()->getUsername())) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('current_username')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('new_username')) ?>
+                <div class="form-group">
+                    <?= $this->formText($form->get('new_username')) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('new_username')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formHidden($form->get('csrf')) ?>
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('csrf')) ?>
+                </div>
+
+                <?= $this->formSubmit($form->get('change_username')) ?>
+            </div>
+
+            <?= $this->form()->closeTag() ?>
+            
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+</div>

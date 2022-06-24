@@ -1,0 +1,71 @@
+<?php
+
+$title = $this->translate('Change E-mail Address');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Settings, Edit, E-mail');
+$this->headMeta()->appendName('description', 'Update your e-mail address');
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('settings', ['action' => 'email']));
+$form->prepare();
+
+?>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <a href="<?= $this->url('settings', ['action' => 'index']) ?>">Settings</a> / <?= $this->escapeHtml($title) ?>
+
+            <h2><?= $this->escapeHtml($title) ?></h2>
+
+            <?= $this->form()->openTag($form) ?>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('email')) ?>
+                <div class="form-group">
+                    <?= $this->formEmail($form->get('email')->setValue($this->authHelper()->getEmail())) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('email')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('new_email')) ?>
+                <div class="form-group">
+                    <?= $this->formEmail($form->get('new_email')) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('new_email')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formLabel($form->get('confirm_new_email')) ?>
+                <div class="form-group">
+                    <?= $this->formEmail($form->get('confirm_new_email')) ?>
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('confirm_new_email')) ?>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <?= $this->formHidden($form->get('csrf')) ?>
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('csrf')) ?>
+                </div>
+
+                <?= $this->formSubmit($form->get('change_email')) ?>
+            </div>
+
+            <?= $this->form()->closeTag() ?>
+            
+        </div>
+        <div class="col-md-8"></div>
+    </div>
+</div>

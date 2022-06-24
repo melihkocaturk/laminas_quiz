@@ -1,0 +1,65 @@
+<?php
+
+$title = $this->translate('All My Quizzes');
+
+$this->headTitle($this->escapeHtml($title));
+$this->headMeta()->appendName('keywords', 'Quiz, My Quizzes');
+$this->headMeta()->appendName('description', 'List all quizzes i have posted');
+
+?>
+
+<div class="container">
+    <h2><?= $this->escapeHtml($title) ?></h2>
+
+    <?php if (count($this->quizzes) > 0): ?>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Ends On</th>
+                    <th scope="col">Views</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($this->quizzes as $quiz): ?>
+                <tr>
+                    <th scope="row"><?= $quiz->getId() ?></th>
+                    <td>
+                        <a href="<?= $this->url('quiz', ['action' => 'answer', 'id' => $quiz->getId()]) ?>">
+                            <?= $quiz->gettitle() ?>
+                        </a>
+                    </td>
+                    <td><?= $quiz->getStatus() ?></td>
+                    <td><?= $quiz->getCategory() ?></td>
+                    <td>
+                        <?= $this->dateFormat(
+                            new DateTime($quiz->getTimeOut()),
+                            IntlDateFormatter::MEDIUM, // Date
+                            IntlDateFormatter::MEDIUM, // Time
+                            "en-us"
+                        ); ?>
+                    </td>
+                    <td><?= $quiz->getViews() ?></td>
+                    <td><?= $quiz->getCreated() ?></td>
+                    <td>
+                        <a href="<?= $this->url('quiz', ['action' => 'delete', 'id' => $quiz->getId()]) ?>">
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
+
+    <div class="mb-3">
+        <a href="<?= $this->url('quiz', ['action' => 'create']) ?>" class="btn btn-primary">
+            Create New Quiz
+        </a>
+    </div>
+</div>

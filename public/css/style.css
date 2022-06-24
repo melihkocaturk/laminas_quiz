@@ -1,0 +1,40 @@
+:root {
+    --brand-color: #013755;
+}
+
+.navbar {
+    background-color: var(--brand-color);
+}
+
+.btn-primary {
+    background-color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+
+.w-30 {
+    width: 30% !important;
+}
+
+#day {
+    margin-left: 3px;
+}
+
+.bar-chart-1 {
+    background-color: #023854;
+}
+
+.bar-chart-2 {
+    background-color: #145573;
+}
+
+.bar-chart-3 {
+    background-color: #038CAD;
+}
+
+.bar-chart-4 {
+    background-color: #22A5D4;
+}
+
+.bar-chart-5 {
+    background-color: #2DC1E3;
+}
